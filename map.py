@@ -3,6 +3,8 @@ import os
 import pygame
 import requests
 from find_spn import find_s
+from PIL import Image
+from io import BytesIO
 
 x, y = map(float, input().split())
 
@@ -10,7 +12,7 @@ geocoder_api_server = "http://geocode-maps.yandex.ru/1.x/"
 
 geocoder_params = {
     "apikey": "40d1649f-0493-4b70-98ba-98533de7710b",
-    "ll": f"{x},{y}",
+    "geocode":f"{x},{y}",
     "format": "json"}
 
 response = requests.get(geocoder_api_server, params=geocoder_params)
@@ -25,13 +27,11 @@ toponym = json_response["response"]["GeoObjectCollection"][
 
 ll, spn = find_s(json_response)
 
-point = ll.split(',')
-
 
 def load_map(spn):
-    org_point = "{0},{1}".format(point[0], point[1])
+    org_point = "{0},{1}".format(ll[0], ll[1])
     map_params = {
-        "ll": ll,
+        "ll": f"{ll[0]},{ll[1]}",
         "spn": spn,
         "l": "map",
         "pt": "{0},pm2dgl".format(org_point)
@@ -53,14 +53,6 @@ screen = pygame.display.set_mode((600, 450))
 screen.blit(pygame.image.load(map_file), (0, 0))
 pygame.display.flip()
 while pygame.event.wait().type != pygame.QUIT:
-    for event in pygame.event.get():
-        if pygame.key.get_pressed()[pygame.K_PAGEUP]:
-            spn = f"{int(spn.split(',')[0]) - 0.1},{int(spn.split(',')[1]) - 0.1}"
-            map_file = load_map(spn)
-            screen.blit(pygame.image.load(map_file), (0, 0))
-        elif pygame.key.get_pressed()[pygame.K_PAGEDOWN]:
-            spn = f"{int(spn.split(',')[0]) + 0.1},{int(spn.split(',')[1]) + 0.1}"
-            map_file = load_map(spn)
-            screen.blit(pygame.image.load(map_file), (0, 0))
+        pass
 pygame.quit()
 os.remove(map_file)
