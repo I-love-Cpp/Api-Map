@@ -56,9 +56,11 @@ while pygame.event.wait().type != pygame.QUIT:
     for event in pygame.event.get():
         if pygame.key.get_pressed()[pygame.K_PAGEUP]:
             spn = f"{int(spn.split(',')[0]) - 0.1},{int(spn.split(',')[1]) - 0.1}"
-            load_map(spn)
+            map_file = load_map(spn)
+            screen.blit(pygame.image.load(map_file), (0, 0))
         elif pygame.key.get_pressed()[pygame.K_PAGEDOWN]:
             spn = f"{int(spn.split(',')[0]) + 0.1},{int(spn.split(',')[1]) + 0.1}"
-            load_map(spn)
+            map_file = load_map(spn)
+            screen.blit(pygame.image.load(map_file), (0, 0))
 pygame.quit()
 os.remove(map_file)
