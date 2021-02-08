@@ -6,7 +6,7 @@ def find_s(json_response):
         "featureMember"][0]["GeoObject"]
     toponym_coodrinates = toponym["Point"]["pos"]
     toponym_longitude, toponym_lattitude = toponym_coodrinates.split(" ")
-    ll = ','.join([toponym_longitude, toponym_lattitude])
+    ll = [toponym_longitude, toponym_lattitude]
     envelope = toponym['boundedBY']['Envelope']
     l, b = envelope["lowerCorner"].split(" ")
     r, t = envelope['upperCorner'].split(" ")
