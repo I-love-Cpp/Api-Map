@@ -32,7 +32,7 @@ org_point = "{0},{1}".format(ll[0], ll[1])
 
 
 def load_map(spn):
-    print(spn)
+    print(ll)
     map_params = {
         "ll": f"{ll[0]},{ll[1]}",
         "spn": f"{spn[0]},{spn[1]}",
@@ -66,25 +66,38 @@ while pygame.event.wait().type != pygame.QUIT:
                 spn[1] = spn[1] - 1
             load_map(spn)
             screen.blit(pygame.image.load(map_file), (0, 0))
-            pygame.display.flip()
         elif pygame.key.get_pressed()[pygame.K_z]:
             spn = [spn[0] + 1, spn[1] + 1]
             load_map(spn)
             screen.blit(pygame.image.load(map_file), (0, 0))
-            pygame.display.flip()
         if pygame.key.get_pressed()[pygame.K_d]:
             delta = spn[0] / 2
-            print(ll)
             ll = [float(ll[0]) + delta, ll[1]]
-            print(ll)
+            if ll[0] > 180:
+                ll[0] = -(ll[0] % 180)
             load_map(spn)
             screen.blit(pygame.image.load(map_file), (0, 0))
-            pygame.display.flip()
-        # # elif pygame.key.get_pressed()[pygame.K_LEFT]:
-        #     delta = spn[0] / 2
-        #     ll = [float(ll[0]) - delta, ll[1]]
-        #     load_map(spn)
-        #     screen.blit(pygame.image.load(map_file), (0, 0))
-        #     pygame.display.flip()
+        elif pygame.key.get_pressed()[pygame.K_a]:
+            delta = spn[0] / 2
+            ll = [float(ll[0]) - delta, ll[1]]
+            if ll[0] < -180:
+                ll[0] = ll[0] % 180
+            load_map(spn)
+            screen.blit(pygame.image.load(map_file), (0, 0))
+        elif pygame.key.get_pressed()[pygame.K_w]:
+            delta = spn[1] / 2
+            ll[1] = float(ll[1]) +  delta
+            if ll[1] > 90:
+                ll[1] = -(ll[1] % 90)
+            load_map(spn)
+            screen.blit(pygame.image.load(map_file), (0, 0))
+        elif pygame.key.get_pressed()[pygame.K_s]:
+            delta = spn[1] / 2
+            ll[1] = ll[1] - delta
+            if ll[1] < -90:
+                ll[1] = ll[1] % 90
+            load_map(spn)
+            screen.blit(pygame.image.load(map_file), (0, 0))
+    pygame.display.flip()
 pygame.quit()
 os.remove(map_file)
