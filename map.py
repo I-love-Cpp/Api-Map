@@ -32,7 +32,7 @@ org_point = "{0},{1}".format(ll[0], ll[1])
 
 
 def load_map(spn):
-    print(ll)
+    print(spn)
     map_params = {
         "ll": f"{ll[0]},{ll[1]}",
         "spn": f"{spn[0]},{spn[1]}",
@@ -68,6 +68,10 @@ while pygame.event.wait().type != pygame.QUIT:
             screen.blit(pygame.image.load(map_file), (0, 0))
         elif pygame.key.get_pressed()[pygame.K_z]:
             spn = [spn[0] + 1, spn[1] + 1]
+            if spn[0] > 180:
+                spn[0] = 179
+            if spn[1] > 90:
+                spn[1] = 89
             load_map(spn)
             screen.blit(pygame.image.load(map_file), (0, 0))
         if pygame.key.get_pressed()[pygame.K_d]:
@@ -86,18 +90,19 @@ while pygame.event.wait().type != pygame.QUIT:
             screen.blit(pygame.image.load(map_file), (0, 0))
         elif pygame.key.get_pressed()[pygame.K_w]:
             delta = spn[1] / 2
-            ll[1] = float(ll[1]) +  delta
+            ll[1] = float(ll[1]) + delta
             if ll[1] > 90:
                 ll[1] = -(ll[1] % 90)
             load_map(spn)
             screen.blit(pygame.image.load(map_file), (0, 0))
         elif pygame.key.get_pressed()[pygame.K_s]:
             delta = spn[1] / 2
-            ll[1] = ll[1] - delta
+            ll[1] = float(ll[1]) - delta
             if ll[1] < -90:
-                ll[1] = ll[1] % 90
+                ll[1] = -85
             load_map(spn)
             screen.blit(pygame.image.load(map_file), (0, 0))
+
     pygame.display.flip()
 pygame.quit()
 os.remove(map_file)
