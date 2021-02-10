@@ -28,9 +28,11 @@ ll, spn = find_s(json_response)
 print(spn)
 map_file = "map.png"
 
+org_point = "{0},{1}".format(ll[0], ll[1])
+
 
 def load_map(spn):
-    org_point = "{0},{1}".format(ll[0], ll[1])
+    print(spn)
     map_params = {
         "ll": f"{ll[0]},{ll[1]}",
         "spn": f"{spn[0]},{spn[1]}",
@@ -57,22 +59,32 @@ while pygame.event.wait().type != pygame.QUIT:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             exit(0)
-        if pygame.key.get_pressed()[pygame.K_w]:
-            if spn[0] - 0.1 >= 0:
-                spn[0] = spn[0] - 0.1
-            else:
-                spn[0] = 0
-            if spn[1] - 0.1 >= 0:
-                spn[1] = spn[1] - 0.1
-            else:
-                spn[1] = 0
+        if pygame.key.get_pressed()[pygame.K_q]:
+            if spn[0] - 1 >= 0:
+                spn[0] = spn[0] - 1
+            if spn[1] - 1 >= 0:
+                spn[1] = spn[1] - 1
             load_map(spn)
             screen.blit(pygame.image.load(map_file), (0, 0))
             pygame.display.flip()
-        elif pygame.key.get_pressed()[pygame.K_s]:
-            spn = [spn[0] + 0.1, spn[1] + 0.1]
+        elif pygame.key.get_pressed()[pygame.K_z]:
+            spn = [spn[0] + 1, spn[1] + 1]
             load_map(spn)
             screen.blit(pygame.image.load(map_file), (0, 0))
             pygame.display.flip()
+        if pygame.key.get_pressed()[pygame.K_d]:
+            delta = spn[0] / 2
+            print(ll)
+            ll = [float(ll[0]) + delta, ll[1]]
+            print(ll)
+            load_map(spn)
+            screen.blit(pygame.image.load(map_file), (0, 0))
+            pygame.display.flip()
+        # # elif pygame.key.get_pressed()[pygame.K_LEFT]:
+        #     delta = spn[0] / 2
+        #     ll = [float(ll[0]) - delta, ll[1]]
+        #     load_map(spn)
+        #     screen.blit(pygame.image.load(map_file), (0, 0))
+        #     pygame.display.flip()
 pygame.quit()
 os.remove(map_file)
